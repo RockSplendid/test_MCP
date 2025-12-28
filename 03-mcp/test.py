@@ -1,14 +1,8 @@
-from fastmcp import FastMCP
+#!/usr/bin/env python3
+"""Test script for the fetch_web_page MCP tool"""
+
 import requests
 
-mcp = FastMCP("Demo 🚀")
-
-@mcp.tool
-def add(a: int, b: int) -> int:
-    """Add two numbers"""
-    return a + b
-
-@mcp.tool
 def fetch_web_page(url: str) -> str:
     """
     Download and convert web page content to markdown using Jina Reader.
@@ -43,5 +37,32 @@ def fetch_web_page(url: str) -> str:
     except Exception as e:
         return f"Error processing the webpage: {str(e)}"
 
+
+def test_fetch_web_page():
+    """Test the fetch_web_page function with sample URLs"""
+    
+    test_urls = [
+        "https://example.com",
+        "https://www.wikipedia.org/wiki/Python_(programming_language)",
+        "https://github.com",
+    ]
+    
+    print("Testing fetch_web_page tool...\n")
+    
+    for url in test_urls:
+        print(f"Fetching: {url}")
+        print("-" * 60)
+        
+        result = fetch_web_page(url)
+        
+        # Print first 500 characters of the result
+        if len(result) > 500:
+            print(result[:500] + "\n...")
+        else:
+            print(result)
+        
+        print("-" * 60)
+        print(f"Total content length: {len(result)} characters\n")
+
 if __name__ == "__main__":
-    mcp.run()
+    test_fetch_web_page()
